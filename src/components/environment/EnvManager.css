@@ -1,0 +1,441 @@
+.env-manager {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 480px;
+  max-height: calc(100vh - 160px);
+}
+
+/* ── Left panel ─────────────────────────────────────────────────────────── */
+
+.env-list-panel {
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-app);
+}
+
+.env-list-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-2);
+}
+
+.env-list-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: 7px var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+  cursor: pointer;
+  transition: background 100ms, color 100ms;
+  text-align: left;
+}
+
+.env-list-item:hover {
+  background: var(--bg-surface-hover);
+  color: var(--text-primary);
+}
+
+.env-list-item.selected {
+  background: var(--bg-surface-hover);
+  color: var(--text-primary);
+}
+
+.env-list-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.env-list-dot--globals {
+  background: var(--text-muted);
+}
+
+.env-list-name {
+  flex: 1;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 11px;
+}
+
+.env-list-badge {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  padding: 1px 4px;
+  flex-shrink: 0;
+}
+
+.env-list-badge--active {
+  color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  opacity: 0.8;
+}
+
+.env-new-input-row {
+  padding: var(--space-2);
+}
+
+.env-new-input {
+  width: 100%;
+  padding: 5px var(--space-2);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color-focus);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  outline: none;
+  transition: border-color 150ms;
+  user-select: text;
+}
+
+.env-new-input:focus {
+  border-color: var(--accent-primary);
+}
+
+.env-new-input.input-error {
+  border-color: var(--status-4xx);
+}
+
+.env-input-error {
+  font-size: 10px;
+  color: var(--status-4xx);
+  margin-top: var(--space-1);
+  line-height: 1.3;
+}
+
+.env-new-input-actions {
+  display: flex;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+}
+
+.env-list-footer {
+  padding: var(--space-2);
+  border-top: 1px solid var(--border-color);
+}
+
+/* ── Right panel ─────────────────────────────────────────────────────────── */
+
+.env-vars-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.env-vars-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-color);
+  min-height: 50px;
+  flex-shrink: 0;
+}
+
+.env-vars-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+}
+
+.env-vars-title-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+}
+
+.env-vars-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.env-rename-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 1;
+}
+
+.env-rename-input {
+  flex: 1;
+  padding: 5px var(--space-2);
+  background: var(--bg-surface);
+  border: 1px solid var(--accent-primary);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  outline: none;
+  user-select: text;
+}
+
+.env-rename-input.input-error {
+  border-color: var(--status-4xx);
+}
+
+/* ── Variables table ─────────────────────────────────────────────────────── */
+
+.env-vars-table-wrap {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-2) var(--space-4);
+}
+
+.env-vars-empty {
+  padding: var(--space-6) 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+}
+
+.env-vars-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-xs);
+}
+
+.env-vars-table thead th {
+  text-align: left;
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.env-vars-table th:last-child {
+  width: 28px;
+}
+
+.env-var-row:hover .env-var-delete-btn {
+  opacity: 1;
+}
+
+.env-var-key {
+  padding: 4px 6px;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  color: var(--text-secondary);
+  font-size: 11px;
+  width: 40%;
+  vertical-align: middle;
+}
+
+.env-var-value {
+  padding: 3px 6px;
+  vertical-align: middle;
+}
+
+.env-var-input {
+  width: 100%;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 11px;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  padding: 3px 4px;
+  outline: none;
+  transition: border-color 120ms, background 120ms;
+}
+
+.env-var-input:hover {
+  border-color: var(--border-color);
+  background: var(--bg-surface-hover);
+}
+
+.env-var-input:focus {
+  border-color: var(--accent-primary);
+  background: var(--bg-surface-hover);
+}
+
+.env-var-delete-col {
+  text-align: center;
+  vertical-align: middle;
+  padding: 0 4px;
+}
+
+.env-var-delete-btn {
+  opacity: 0;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  transition: opacity 100ms, background 100ms, color 100ms;
+}
+
+.env-var-delete-btn:hover {
+  background: rgba(244, 67, 54, 0.15);
+  color: var(--status-5xx);
+}
+
+/* ── Add variable row ─────────────────────────────────────────────────────── */
+
+.env-add-var-row {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-top: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.env-add-key {
+  flex: 0 0 38%;
+}
+
+.env-add-value {
+  flex: 1;
+}
+
+.env-add-key,
+.env-add-value {
+  padding: 5px var(--space-2);
+  background: var(--bg-surface-hover);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  outline: none;
+  transition: border-color 150ms;
+}
+
+.env-add-key:focus,
+.env-add-value:focus {
+  border-color: var(--accent-primary);
+}
+
+/* ── Workspace bar ────────────────────────────────────────────────────────── */
+
+.env-workspace-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-app);
+  flex-shrink: 0;
+}
+
+.env-workspace-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  flex: 1;
+}
+
+.env-workspace-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.env-workspace-path {
+  font-size: 10px;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.env-workspace-actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+/* ── Shared button styles ─────────────────────────────────────────────────── */
+
+.btn-primary-sm {
+  padding: 4px 10px;
+  background: var(--accent-primary);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background 150ms;
+  white-space: nowrap;
+}
+
+.btn-primary-sm:hover {
+  background: var(--accent-hover);
+}
+
+.btn-primary-sm:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.btn-ghost-sm {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 150ms, background 150ms, color 150ms;
+  white-space: nowrap;
+}
+
+.btn-ghost-sm:hover {
+  border-color: var(--border-color-focus);
+  color: var(--text-primary);
+  background: var(--bg-surface-hover);
+}
+
+.btn-ghost-sm:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.btn-danger-sm {
+  padding: 4px 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--status-5xx);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 150ms, border-color 150ms;
+  white-space: nowrap;
+}
+
+.btn-danger-sm:hover {
+  background: rgba(244, 67, 54, 0.12);
+  border-color: var(--status-5xx);
+}

@@ -1,0 +1,132 @@
+.response-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--bg-primary);
+  border-left: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.response-panel.empty-state {
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.response-panel.error-state {
+  color: var(--text-error);
+}
+
+.response-panel.error-state pre {
+  margin-top: 8px;
+  padding: 12px;
+  background-color: rgba(255, 0, 0, 0.1);
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  white-space: pre-wrap;
+}
+
+.rp-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: 48px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
+}
+
+.rp-status-items {
+  display: flex;
+  gap: 8px;
+}
+
+.rp-badge {
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+.rp-badge-neutral {
+  background-color: var(--bg-tertiary);
+  color: var(--text-secondary);
+}
+
+.status-success {
+  background-color: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+.status-redirect {
+  background-color: rgba(234, 179, 8, 0.2);
+  color: #eab308;
+}
+
+.status-client-error {
+  background-color: rgba(249, 115, 22, 0.2);
+  color: #f97316;
+}
+
+.status-server-error {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.status-unknown {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.rp-tabs {
+  display: flex;
+  gap: 16px;
+}
+
+.rp-tab-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  height: 48px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rp-tab-btn:hover {
+  color: var(--text-primary);
+}
+
+.rp-tab-btn.active {
+  color: var(--text-primary);
+}
+
+.rp-tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--accent-primary);
+}
+
+.console-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-primary);
+}
+
+.rp-content {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+}

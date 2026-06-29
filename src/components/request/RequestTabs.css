@@ -1,0 +1,111 @@
+.request-tabs-bar {
+  display: flex;
+  height: var(--tab-height, 38px);
+  background: var(--bg-app);
+  border-bottom: 1px solid var(--border-color);
+  user-select: none;
+}
+
+.request-tabs-scrollable {
+  display: flex;
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none; /* Firefox */
+}
+
+.request-tabs-scrollable::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.request-tab {
+  display: flex;
+  align-items: center;
+  min-width: 140px;
+  max-width: 220px;
+  padding: 0 var(--space-3);
+  gap: var(--space-2);
+  border-right: 1px solid var(--border-color);
+  background: var(--bg-surface-hover);
+  color: var(--text-secondary);
+  cursor: pointer;
+  animation: tab-appear 0.2s ease-out;
+  position: relative;
+}
+
+.request-tab:hover {
+  background: var(--bg-surface);
+}
+
+.request-tab.active {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+.request-tab.active::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent-primary);
+}
+
+.tab-method-badge {
+  font-size: 0.65rem;
+}
+
+.tab-name {
+  flex: 1;
+  font-size: var(--fs-xs);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tab-dirty-dot {
+  color: var(--accent-primary);
+  font-size: 0.7rem;
+  margin-right: -4px;
+}
+
+.tab-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  line-height: 1;
+  opacity: 0; /* show on hover */
+  transition: all 0.1s;
+}
+
+.request-tab:hover .tab-close-btn,
+.request-tab.active .tab-close-btn {
+  opacity: 1;
+}
+
+.tab-close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.tab-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  border-left: 1px solid var(--border-color);
+  transition: background 0.1s;
+}
+
+.tab-add-btn:hover {
+  background: var(--bg-surface-hover);
+  color: var(--text-primary);
+}

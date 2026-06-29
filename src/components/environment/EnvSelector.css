@@ -1,0 +1,159 @@
+.env-selector {
+  position: relative;
+}
+
+.env-selector-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 4px 10px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-hover);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 150ms, background 150ms, color 150ms;
+  min-width: 130px;
+  justify-content: space-between;
+}
+
+.env-selector-trigger:hover,
+.env-selector-trigger.open {
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+  background: var(--bg-surface-hover);
+}
+
+.env-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.env-label {
+  flex: 1;
+  text-align: left;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+}
+
+.env-label--none {
+  color: var(--text-muted);
+  font-family: var(--font-family);
+}
+
+.env-caret {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: transform 150ms ease;
+}
+
+.env-caret.rotated {
+  transform: rotate(180deg);
+}
+
+/* ── Dropdown ──────────────────────────────────────────────────────────── */
+
+.env-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 200px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  z-index: var(--z-dropdown);
+  padding: var(--space-1);
+  animation: env-dropdown-in 120ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes env-dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.env-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 100ms, color 100ms;
+  text-align: left;
+}
+
+.env-option:hover {
+  background: var(--bg-surface-hover);
+  color: var(--text-primary);
+}
+
+.env-option.active {
+  color: var(--text-primary);
+}
+
+.env-option-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.env-option-dot--none {
+  background: var(--text-muted);
+  opacity: 0.5;
+}
+
+.env-check {
+  margin-left: auto;
+  color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.env-empty {
+  padding: 8px 10px;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.env-divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: var(--space-1) 0;
+}
+
+.env-manage-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  cursor: pointer;
+  transition: background 100ms, color 100ms;
+  text-align: left;
+}
+
+.env-manage-btn:hover {
+  background: var(--bg-surface-hover);
+  color: var(--text-secondary);
+}

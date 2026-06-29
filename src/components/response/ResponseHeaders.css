@@ -1,0 +1,50 @@
+.response-headers {
+  height: 100%;
+  overflow: auto;
+  padding: 16px;
+}
+
+.response-headers.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.rh-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+
+.rh-table th {
+  padding: 8px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
+}
+
+.rh-table td {
+  padding: 8px;
+  border-bottom: 1px solid var(--border-color);
+  word-break: break-all;
+}
+
+.rh-table tr:hover {
+  background-color: var(--bg-hover);
+}
+
+.rh-key {
+  font-weight: 500;
+  color: var(--text-primary);
+  width: 30%;
+  font-family: var(--font-mono);
+}
+
+.rh-value {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}

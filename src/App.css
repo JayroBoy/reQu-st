@@ -1,0 +1,7 @@
+/* App.css is mostly empty now since index.css and layout CSS handle everything */
+#root {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}

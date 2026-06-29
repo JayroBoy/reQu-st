@@ -1,0 +1,161 @@
+.request-builder {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.rb-method-wrap {
+  position: relative;
+  width: 110px;
+}
+
+.rb-method-select {
+  appearance: none;
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg-surface-hover);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  outline: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+.rb-method-select:focus {
+  border-color: var(--border-color-focus);
+}
+
+.rb-url-wrap {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.rb-url-input, .rb-url-highlighter {
+  width: 100%;
+  padding: 8px 12px;
+  font-family: var(--font-mono, monospace);
+  font-size: var(--fs-sm);
+  line-height: normal;
+  border-radius: var(--radius-md);
+}
+
+.rb-url-input {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  color: transparent; /* Text is drawn by highlighter */
+  caret-color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  outline: none;
+}
+
+.rb-url-input:focus {
+  border-color: var(--border-color-focus);
+}
+
+/* Fallback for when there are no variables or to show placeholder properly */
+.rb-url-input::placeholder {
+  color: var(--text-muted);
+}
+.rb-url-input:focus {
+  color: transparent;
+}
+/* We only hide text when there's a value, otherwise placeholder won't show */
+.rb-url-input:not(:placeholder-shown) {
+  color: transparent;
+}
+
+.rb-url-highlighter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  border: 1px solid transparent; /* match input border for alignment */
+  background: var(--bg-surface-hover);
+  color: var(--text-primary);
+  white-space: pre;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.url-variable {
+  background: transparent;
+  color: var(--accent-hover);
+  font-weight: 600;
+}
+
+.rb-toast {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent-primary);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: var(--fs-xs);
+  z-index: var(--z-toast);
+  pointer-events: none;
+  animation: tab-appear 0.2s ease-out;
+}
+
+.rb-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.rb-redirect-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-hover);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.rb-redirect-toggle:hover {
+  background: var(--border-color);
+  color: var(--text-primary);
+}
+
+.rb-send-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 8px 24px;
+  background: var(--accent-primary);
+  color: white;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  min-width: 100px;
+  transition: background 0.2s;
+}
+
+.rb-send-btn:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.rb-send-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.spinner {
+  display: inline-block;
+  animation: send-spin 1s linear infinite;
+}

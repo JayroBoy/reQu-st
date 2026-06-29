@@ -1,0 +1,116 @@
+.auth-editor {
+  display: flex;
+  height: 100%;
+}
+
+.auth-sidebar {
+  width: 180px;
+  border-right: 1px solid var(--border-color);
+  padding: var(--space-4);
+  background: var(--bg-surface-hover);
+}
+
+.auth-type-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.auth-type-btn {
+  text-align: left;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  font-size: var(--fs-sm);
+}
+
+.auth-type-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.auth-type-btn.active {
+  background: var(--accent-primary);
+  color: white;
+  font-weight: 500;
+}
+
+.auth-content {
+  flex: 1;
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-hint {
+  background: rgba(97, 64, 229, 0.1);
+  color: var(--accent-hover);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(97, 64, 229, 0.2);
+  margin-bottom: var(--space-6);
+  font-size: var(--fs-sm);
+}
+
+.auth-empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.auth-form {
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.form-group label {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  outline: none;
+  font-size: var(--fs-sm);
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  border-color: var(--border-color-focus);
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.eye-btn {
+  position: absolute;
+  right: var(--space-2);
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  padding: 4px;
+}
+
+.eye-btn:hover {
+  color: var(--text-primary);
+}

@@ -1,0 +1,75 @@
+.response-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.rb-sub-tabs {
+  display: flex;
+  padding: 8px 16px;
+  gap: 8px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+}
+
+.rb-sub-tabs button {
+  background: none;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.rb-sub-tabs button:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.rb-sub-tabs button.active {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+.rb-content-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.rb-cm-container {
+  height: 100%;
+  overflow: auto;
+}
+
+.rb-cm-container .cm-editor {
+  height: 100%;
+  background-color: var(--bg-primary);
+}
+
+.rb-cm-container .cm-scroller {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.rb-raw-textarea {
+  width: 100%;
+  height: 100%;
+  resize: none;
+  border: none;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 16px;
+  outline: none;
+}
+
+.rb-preview-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: #fff; /* HTML usually expects a white background */
+}

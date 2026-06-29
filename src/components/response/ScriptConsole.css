@@ -1,0 +1,43 @@
+.script-console {
+  height: 100%;
+  overflow: auto;
+  background-color: var(--bg-primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 8px 0;
+}
+
+.script-console.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.sc-log-line {
+  display: flex;
+  padding: 4px 16px;
+  border-bottom: 1px solid var(--bg-secondary);
+}
+
+.sc-log-line:hover {
+  background-color: var(--bg-hover);
+}
+
+.sc-timestamp {
+  color: var(--text-muted);
+  margin-right: 12px;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.sc-message {
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.sc-error .sc-message {
+  color: var(--text-error);
+}
