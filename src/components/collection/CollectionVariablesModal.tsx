@@ -49,8 +49,8 @@ export const CollectionVariablesModal: React.FC = () => {
   if (!collection) return null;
 
   return (
-    <Modal title={`Variables: ${collection.name}`} onClose={handleClose} isOpen={true}>
-      <div style={{ width: '600px', height: '400px', display: 'flex', flexDirection: 'column' }}>
+    <Modal title={`Variables: ${collection.name}`} onClose={handleClose} isOpen={true} width="640px">
+      <div style={{ width: '100%', height: '400px', display: 'flex', flexDirection: 'column' }}>
         <p style={{ color: 'var(--color-text-muted)', marginBottom: '1rem', fontSize: '0.85rem' }}>
           Collection variables override environment variables for all requests within this collection.
         </p>

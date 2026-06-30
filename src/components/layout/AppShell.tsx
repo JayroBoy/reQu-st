@@ -5,6 +5,7 @@ import { EnvManager } from '../environment/EnvManager';
 import { SaveToCollectionDialog } from '../collection/SaveToCollectionDialog';
 import { CollectionVariablesModal } from '../collection/CollectionVariablesModal';
 import { PromptModal } from '../shared/PromptModal';
+import { ImportDialog } from '../import/ImportDialog';
 import { useUIStore } from '../../stores/uiStore';
 import { useEnvironmentStore } from '../../stores/environmentStore';
 import { checkCurl } from '../../services/curlService';
@@ -35,27 +36,49 @@ export const AppShell: React.FC = () => {
   const addTab = useRequestStore((state) => state.addTab);
   const closeTab = useRequestStore((state) => state.closeTab);
   const setActiveTab = useRequestStore((state) => state.setActiveTab);
-  const saveActiveRequest = useRequestStore((state) => state.saveActiveRequest);
 
   const activeTab = tabs.find(t => t.id === activeTabId);
 
-  // Keyboard shortcuts
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.key.toLowerCase() === 'n') {
-        e.preventDefault();
-        addTab();
-      } else if (e.ctrlKey && e.key.toLowerCase() === 'w') {
-        e.preventDefault();
-        if (activeTabId) closeTab(activeTabId);
-      } else if (e.ctrlKey && e.key.toLowerCase() === 's') {
-        e.preventDefault();
-        saveActiveRequest();
-      }
+  const [sidebarWidth, setSidebarWidth] = useState(260);
+  const [requestHeight, setRequestHeight] = useState(300);
+
+  const startSidebarResize = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const startX = e.clientX;
+    const startWidth = sidebarWidth;
+
+    const onMouseMove = (moveEvent: MouseEvent) => {
+      const newWidth = Math.max(200, Math.min(600, startWidth + (moveEvent.clientX - startX)));
+      setSidebarWidth(newWidth);
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [addTab, closeTab, saveActiveRequest, activeTabId]);
+
+    const onMouseUp = () => {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  };
+
+  const startVerticalResize = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const startY = e.clientY;
+    const startHeight = requestHeight;
+
+    const onMouseMove = (moveEvent: MouseEvent) => {
+      const newHeight = Math.max(150, Math.min(window.innerHeight - 200, startHeight + (moveEvent.clientY - startY)));
+      setRequestHeight(newHeight);
+    };
+
+    const onMouseUp = () => {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  };
 
   /** null = checking, string = curl version (OK), Error = not found */
   const [curlStatus, setCurlStatus] = useState<'checking' | 'ok' | 'error'>('checking');
@@ -120,12 +143,13 @@ export const AppShell: React.FC = () => {
       </div>
 
       {sidebarOpen && (
-        <div className="app-shell-sidebar">
+        <div className="app-shell-sidebar" style={{ width: sidebarWidth }}>
           <Sidebar />
+          <div className="app-shell-sidebar-resizer" onMouseDown={startSidebarResize} />
         </div>
       )}
 
-      <div className="app-shell-main" style={{ display: 'flex', flexDirection: 'column' }}>
+      <div className="app-shell-main" style={{ display: 'flex', flexDirection: 'column', left: sidebarOpen ? sidebarWidth : 0 }}>
         <RequestTabs 
           tabs={tabs}
           activeTabId={activeTabId}
@@ -135,10 +159,10 @@ export const AppShell: React.FC = () => {
         />
         {activeTab ? (
           <div className="app-shell-workspace">
-            <div className="app-shell-request">
+            <div className="app-shell-request" style={{ height: requestHeight, flex: 'none' }}>
               <RequestPanel tab={activeTab} />
             </div>
-            <div className="app-shell-resizer" />
+            <div className="app-shell-resizer" onMouseDown={startVerticalResize} />
             <div className="app-shell-response">
               <ResponsePanelWrapper tabId={activeTab.id} />
             </div>
@@ -153,6 +177,7 @@ export const AppShell: React.FC = () => {
       {activeModal === 'env-manager' && <EnvManager />}
       {activeModal === 'saveToCollection' && <SaveToCollectionDialog />}
       {activeModal === 'collectionVariables' && <CollectionVariablesModal />}
+      {activeModal === 'import' && <ImportDialog />}
     </div>
   );
 };

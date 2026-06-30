@@ -28,17 +28,18 @@ export const PromptModal: React.FC = () => {
   };
 
   return (
-    <Modal title={promptConfig.title} onClose={handleClose} isOpen={true}>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '350px' }}>
-        <input
-          ref={inputRef}
-          type="text"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          placeholder={promptConfig.placeholder}
-          style={{ width: '100%', padding: '0.5rem', fontSize: '1rem' }}
-        />
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
+    <Modal title={promptConfig.title} onClose={handleClose} isOpen={true} width="400px">
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%' }}>
+        <div className="form-group">
+          <input
+            ref={inputRef}
+            type="text"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            placeholder={promptConfig.placeholder}
+          />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', marginTop: '0.5rem' }}>
           <button type="button" className="secondary-btn" onClick={handleClose}>
             Cancel
           </button>

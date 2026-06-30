@@ -22,13 +22,6 @@ export function parseCurlCommand(raw: string): Partial<RequestTab> {
     result.method = methodMatch[1].toUpperCase() as HttpMethod;
   }
   
-  // Match URL (first argument that doesn't start with - and isn't the value of a flag)
-  // We'll do a simpler approach: extract everything that looks like a URL
-  const urlMatches = normalized.match(/['"]?(https?:\/\/[^\s'"]+)['"]?/g);
-  // Need to be careful not to grab a URL inside a header or body.
-  // We will assume the first standalone URL-like string is the URL.
-  // For a more robust solution, we'd tokenize.
-  
   // Let's use a simple tokenizer to find the URL and flags
   const tokens = tokenize(normalized);
   

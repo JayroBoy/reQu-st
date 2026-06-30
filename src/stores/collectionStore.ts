@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
-import type { Collection, CollectionFolder, CollectionRequest, CollectionItem } from '../types/collection';
+import type { Collection, CollectionFolder, CollectionRequest } from '../types/collection';
 import { collectionService } from '../services/collectionService';
 
 interface CollectionState {

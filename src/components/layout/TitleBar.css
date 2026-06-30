@@ -31,16 +31,9 @@
 }
 
 .app-logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 20px;
   height: 20px;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-hover));
-  color: white;
-  border-radius: var(--radius-sm);
-  font-weight: 700;
-  font-size: var(--fs-xs);
+  object-fit: contain;
   flex-shrink: 0;
 }
 

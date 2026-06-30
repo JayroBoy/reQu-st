@@ -201,5 +201,19 @@
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   overflow-x: auto;
-  font-family: var(--font-mono);
+}
+
+.app-shell-sidebar-resizer {
+  position: absolute;
+  top: 0;
+  right: -2px;
+  bottom: 0;
+  width: 4px;
+  background-color: transparent;
+  cursor: col-resize;
+  z-index: 10;
+}
+
+.app-shell-sidebar-resizer:hover {
+  background-color: var(--accent-primary);
 }

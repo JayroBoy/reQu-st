@@ -19,9 +19,11 @@ export const ResponsePanel: React.FC<ResponsePanelProps> = ({ response, isLoadin
 
   if (isLoading) {
     return (
-      <div className="response-panel empty-state">
-        <div className="spinner">↻</div>
-        <p>Sending request...</p>
+      <div className="response-panel" style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div className="skeleton" style={{ height: '32px', width: '200px' }} />
+        <div className="skeleton" style={{ height: '16px', width: '100%' }} />
+        <div className="skeleton" style={{ height: '16px', width: '80%' }} />
+        <div className="skeleton" style={{ height: '16px', width: '90%' }} />
       </div>
     );
   }
@@ -57,7 +59,7 @@ export const ResponsePanel: React.FC<ResponsePanelProps> = ({ response, isLoadin
   };
 
   return (
-    <div className="response-panel">
+    <div className="response-panel fade-in">
       <div className="rp-status-bar">
         <div className="rp-status-items">
           <span className={`rp-badge ${getStatusColorClass(response.status)}`}>

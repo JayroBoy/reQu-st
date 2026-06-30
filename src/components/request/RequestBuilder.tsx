@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import type { RequestTab, HttpMethod } from '../../types/request';
 import { useRequestStore } from '../../stores/requestStore';
-import { MethodBadge } from '../shared/MethodBadge';
+import { useCollectionStore } from '../../stores/collectionStore';
+import { useEnvironmentStore } from '../../stores/environmentStore';
 import { parseCurlCommand } from '../../utils/curlParser';
 import './RequestBuilder.css';
 
@@ -53,6 +54,9 @@ export const RequestBuilder: React.FC<RequestBuilderProps> = ({ tab, onChange, o
 
   // Variable highlighting overlay
   const renderHighlightedUrl = () => {
+    const collectionVars = tab.collectionId ? useCollectionStore.getState().getCollectionVariables(tab.collectionId) : {};
+    const resolvedVars = useEnvironmentStore.getState().resolveVariables(collectionVars);
+
     const regex = /\{\{([^}]+)\}\}/g;
     const parts = [];
     let lastIndex = 0;
@@ -62,8 +66,20 @@ export const RequestBuilder: React.FC<RequestBuilderProps> = ({ tab, onChange, o
       if (match.index > lastIndex) {
         parts.push(tab.url.substring(lastIndex, match.index));
       }
+      const varName = match[1];
+      const isResolved = Object.prototype.hasOwnProperty.call(resolvedVars, varName);
+      
       parts.push(
-        <mark key={match.index} className="url-variable">
+        <mark 
+          key={match.index} 
+          className={isResolved ? "url-variable" : "url-variable-unresolved"}
+          title={isResolved ? resolvedVars[varName] : 'Unresolved variable'}
+          onMouseDown={(e) => {
+            // Prevent default to avoid losing focus
+            e.preventDefault();
+            urlInputRef.current?.focus();
+          }}
+        >
           {match[0]}
         </mark>
       );
@@ -120,7 +136,7 @@ export const RequestBuilder: React.FC<RequestBuilderProps> = ({ tab, onChange, o
           ↻
         </button>
         <button
-          className="rb-send-btn"
+          className="primary-btn"
           onClick={onSend}
           disabled={isSending || !tab.url.trim()}
         >
@@ -133,7 +149,7 @@ export const RequestBuilder: React.FC<RequestBuilderProps> = ({ tab, onChange, o
           )}
         </button>
         <button
-          className="rb-save-btn"
+          className="secondary-btn"
           onClick={() => useRequestStore.getState().saveActiveRequest()}
           title="Save Request (Ctrl+S)"
         >

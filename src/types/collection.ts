@@ -1,4 +1,4 @@
-import { HttpMethod, KeyValuePair, RequestBody, AuthConfig } from './request';
+import type { HttpMethod, KeyValuePair, RequestBody, AuthConfig } from './request';
 
 export interface Collection {
   id: string;

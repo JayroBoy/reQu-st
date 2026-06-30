@@ -90,8 +90,8 @@ export const SaveToCollectionDialog: React.FC = () => {
   const selectedCollection = collections.find(c => c.id === selectedCollectionId);
 
   return (
-    <Modal title="Save Request" onClose={handleClose} isOpen={true}>
-      <div className="save-dialog" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '400px' }}>
+    <Modal title="Save Request" onClose={handleClose} isOpen={true} width="480px">
+      <div className="save-dialog" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%' }}>
         <div className="form-group">
           <label>Request Name</label>
           <input
@@ -114,7 +114,7 @@ export const SaveToCollectionDialog: React.FC = () => {
                 placeholder="New Collection Name"
                 style={{ flex: 1 }}
               />
-              <button onClick={() => setIsCreatingCollection(false)}>Cancel</button>
+              <button className="secondary-btn" style={{ padding: '4px 12px' }} onClick={() => setIsCreatingCollection(false)}>Cancel</button>
             </div>
           ) : (
             <div style={{ display: 'flex', gap: '0.5rem' }}>
@@ -127,7 +127,7 @@ export const SaveToCollectionDialog: React.FC = () => {
                   <option key={c.id} value={c.id}>{c.name}</option>
                 ))}
               </select>
-              <button onClick={() => setIsCreatingCollection(true)}>New</button>
+              <button className="secondary-btn" style={{ padding: '4px 12px' }} onClick={() => setIsCreatingCollection(true)}>New</button>
             </div>
           )}
         </div>

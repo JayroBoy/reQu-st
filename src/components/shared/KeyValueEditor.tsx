@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import type { KeyValuePair } from '../../types/request';
 import './KeyValueEditor.css';

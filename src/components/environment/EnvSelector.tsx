@@ -43,7 +43,7 @@ export const EnvSelector: React.FC = () => {
     setActiveModal('env-manager');
   };
 
-  const activeEnv = environments.find((e) => e.name === activeEnvName);
+
 
   return (
     <div className="env-selector" ref={dropdownRef}>

@@ -125,6 +125,20 @@ export const useRequestStore = create<RequestState>((set, get) => ({
       // Store in responseStore
       useResponseStore.getState().setResponse(activeTabId, response);
       
+      // Save to history
+      const { useHistoryStore } = await import('./historyStore');
+      const { v4: uuidv4 } = await import('uuid');
+      const { interpolate } = await import('../utils/variableInterpolation');
+      useHistoryStore.getState().addEntry({
+        id: uuidv4(),
+        timestamp: Date.now(),
+        method: activeTab.method,
+        url: interpolate(activeTab.url, collectionVars, useEnvironmentStore.getState().resolveVariables({}), {}),
+        status: response.status,
+        time: response.time,
+        request: collectionService.requestToCollectionRequest(activeTab)
+      });
+      
       // Run post-request script
       if (activeTab.script && activeTab.script.trim() !== '') {
         const { logs, envUpdates, error } = await runScript(activeTab.script, {
