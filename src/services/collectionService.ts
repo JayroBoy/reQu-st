@@ -14,7 +14,7 @@ export const collectionService = {
       const collections: Collection[] = [];
       for (const file of collectionFiles) {
         try {
-          const content = await storageService.loadFile(`${COLLECTION_DIR}/${file}`);
+          const content = await storageService.load(`${COLLECTION_DIR}/${file}`);
           const collection = JSON.parse(content) as Collection;
           collections.push(collection);
         } catch (e) {
@@ -31,12 +31,12 @@ export const collectionService = {
   async save(collection: Collection): Promise<void> {
     await storageService.ensureDirectory(COLLECTION_DIR);
     const content = JSON.stringify(collection, null, 2);
-    await storageService.saveFile(`${COLLECTION_DIR}/${collection.id}.json`, content);
+    await storageService.save(`${COLLECTION_DIR}/${collection.id}.json`, content);
   },
 
   async remove(id: string): Promise<void> {
     try {
-      await storageService.deleteFile(`${COLLECTION_DIR}/${id}.json`);
+      await storageService.delete(`${COLLECTION_DIR}/${id}.json`);
     } catch (e) {
       console.error(`Failed to delete collection ${id}:`, e);
     }

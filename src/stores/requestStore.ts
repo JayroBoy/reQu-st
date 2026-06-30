@@ -6,6 +6,7 @@ import { sendRequest } from '../services/curlService';
 import { useCollectionStore } from './collectionStore';
 import { collectionService } from '../services/collectionService';
 import { useUIStore } from './uiStore';
+import { storageService } from '../services/storageService';
 
 interface RequestState {
   tabs: RequestTab[];
@@ -23,6 +24,7 @@ interface RequestState {
   saveActiveRequest: () => Promise<void>;
   openCollectionRequest: (req: any, collectionId: string, folderId?: string) => void;
   markClean: (id: string) => void;
+  loadSession: () => Promise<void>;
 }
 
 export const createDefaultTab = (): RequestTab => ({
@@ -201,4 +203,30 @@ export const useRequestStore = create<RequestState>((set, get) => ({
       tabs: state.tabs.map((t) => (t.id === id ? { ...t, isDirty: false } : t)),
     }));
   },
+
+  loadSession: async () => {
+    try {
+      const content = await storageService.load('session.json');
+      if (content) {
+        const data = JSON.parse(content);
+        set({ tabs: data.tabs || [], activeTabId: data.activeTabId || null });
+      }
+    } catch (e) {
+      // Ignore, session might not exist yet
+    }
+  },
 }));
+
+// Save session on change
+useRequestStore.subscribe((state, prevState) => {
+  if (state.tabs !== prevState.tabs || state.activeTabId !== prevState.activeTabId) {
+    const data = {
+      tabs: state.tabs,
+      activeTabId: state.activeTabId,
+    };
+    storageService.save('session.json', JSON.stringify(data, null, 2)).catch((e) => {
+      console.error('Failed to save session:', e);
+    });
+  }
+});
+

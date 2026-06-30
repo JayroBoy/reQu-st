@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { CollectionRequest } from '../../types/collection';
 import { useRequestStore } from '../../stores/requestStore';
 import { useCollectionStore } from '../../stores/collectionStore';
+import { useUIStore } from '../../stores/uiStore';
 import { MethodBadge } from '../shared/MethodBadge';
 
 interface RequestNodeProps {
@@ -27,9 +28,13 @@ export const RequestNode: React.FC<RequestNodeProps> = ({ collectionId, request,
     setShowMenu(false);
   };
 
-  const handleRename = (e: React.MouseEvent) => {
+  const handleRename = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    const newName = prompt('Enter new request name:', request.name);
+    const newName = await useUIStore.getState().requestPrompt({
+      title: 'Rename Request',
+      defaultValue: request.name,
+      submitText: 'Rename'
+    });
     if (newName && newName.trim()) {
       renameItem(collectionId, request.id, newName.trim());
     }

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { CollectionTree } from '../collection/CollectionTree';
 import { useCollectionStore } from '../../stores/collectionStore';
+import { useUIStore } from '../../stores/uiStore';
 import './Sidebar.css';
 
 export const Sidebar: React.FC = () => {
@@ -16,8 +17,12 @@ export const Sidebar: React.FC = () => {
       <div className="sidebar-section">
         <div className="sidebar-header">
           <h3>Collections</h3>
-          <button className="sidebar-action-btn" title="New Collection" onClick={() => {
-            const name = prompt('Enter new collection name:');
+          <button className="sidebar-action-btn" title="New Collection" onClick={async () => {
+            const name = await useUIStore.getState().requestPrompt({
+              title: 'New Collection',
+              placeholder: 'Enter collection name',
+              submitText: 'Create'
+            });
             if (name && name.trim()) {
               useCollectionStore.getState().createCollection(name.trim());
             }

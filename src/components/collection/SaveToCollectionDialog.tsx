@@ -90,7 +90,7 @@ export const SaveToCollectionDialog: React.FC = () => {
   const selectedCollection = collections.find(c => c.id === selectedCollectionId);
 
   return (
-    <Modal title="Save Request" onClose={handleClose}>
+    <Modal title="Save Request" onClose={handleClose} isOpen={true}>
       <div className="save-dialog" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '400px' }}>
         <div className="form-group">
           <label>Request Name</label>

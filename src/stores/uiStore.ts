@@ -1,5 +1,16 @@
 import { create } from 'zustand';
 
+export interface PromptOptions {
+  title: string;
+  defaultValue?: string;
+  placeholder?: string;
+  submitText?: string;
+}
+
+export interface PromptState extends PromptOptions {
+  resolve: (value: string | null) => void;
+}
+
 interface UIState {
   theme: 'dark' | 'light';
   sidebarOpen: boolean;
@@ -9,6 +20,10 @@ interface UIState {
   setSidebarOpen: (open: boolean) => void;
   setActiveModal: (modal: string | null) => void;
   setEditingCollectionId: (id: string | null) => void;
+  
+  promptConfig: PromptState | null;
+  requestPrompt: (options: PromptOptions) => Promise<string | null>;
+  closePrompt: () => void;
 }
 
 // Read initial theme from local storage or default to dark
@@ -36,4 +51,14 @@ export const useUIStore = create<UIState>((set) => ({
   setActiveModal: (modal: string | null) => set({ activeModal: modal }),
   
   setEditingCollectionId: (id: string | null) => set({ editingCollectionId: id }),
+
+  promptConfig: null,
+  
+  requestPrompt: (options: PromptOptions) => {
+    return new Promise((resolve) => {
+      set({ promptConfig: { ...options, resolve } });
+    });
+  },
+
+  closePrompt: () => set({ promptConfig: null }),
 }));

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { CollectionFolder } from '../../types/collection';
 import { useCollectionStore } from '../../stores/collectionStore';
+import { useUIStore } from '../../stores/uiStore';
 import { RequestNode } from './RequestNode';
 
 interface FolderNodeProps {
@@ -20,9 +21,13 @@ export const FolderNode: React.FC<FolderNodeProps> = ({ collectionId, folder, de
     toggleFolder(folder.id);
   };
 
-  const handleAddFolder = (e: React.MouseEvent) => {
+  const handleAddFolder = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    const name = prompt('Enter folder name:');
+    const name = await useUIStore.getState().requestPrompt({
+      title: 'New Folder',
+      placeholder: 'Enter folder name',
+      submitText: 'Create'
+    });
     if (name && name.trim()) {
       addFolder(collectionId, folder.id, name.trim());
       if (!isExpanded) toggleFolder(folder.id);
@@ -30,9 +35,13 @@ export const FolderNode: React.FC<FolderNodeProps> = ({ collectionId, folder, de
     setShowMenu(false);
   };
 
-  const handleRename = (e: React.MouseEvent) => {
+  const handleRename = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    const newName = prompt('Enter new folder name:', folder.name);
+    const newName = await useUIStore.getState().requestPrompt({
+      title: 'Rename Folder',
+      defaultValue: folder.name,
+      submitText: 'Rename'
+    });
     if (newName && newName.trim()) {
       renameItem(collectionId, folder.id, newName.trim());
     }

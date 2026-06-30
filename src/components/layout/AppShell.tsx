@@ -4,6 +4,7 @@ import { Sidebar } from './Sidebar';
 import { EnvManager } from '../environment/EnvManager';
 import { SaveToCollectionDialog } from '../collection/SaveToCollectionDialog';
 import { CollectionVariablesModal } from '../collection/CollectionVariablesModal';
+import { PromptModal } from '../shared/PromptModal';
 import { useUIStore } from '../../stores/uiStore';
 import { useEnvironmentStore } from '../../stores/environmentStore';
 import { checkCurl } from '../../services/curlService';
@@ -65,6 +66,7 @@ export const AppShell: React.FC = () => {
     checkCurl()
       .then(() => {
         setCurlStatus('ok');
+        useRequestStore.getState().loadSession();
         return loadEnvironments();
       })
       .catch((err: unknown) => {
@@ -147,7 +149,8 @@ export const AppShell: React.FC = () => {
       </div>
 
       {/* Global modals */}
-      {activeModal === 'envManager' && <EnvManager />}
+      <PromptModal />
+      {activeModal === 'env-manager' && <EnvManager />}
       {activeModal === 'saveToCollection' && <SaveToCollectionDialog />}
       {activeModal === 'collectionVariables' && <CollectionVariablesModal />}
     </div>

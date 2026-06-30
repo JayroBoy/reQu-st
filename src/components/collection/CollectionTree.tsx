@@ -11,8 +11,12 @@ export const CollectionTree: React.FC = () => {
   
   const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
-  const handleCreateCollection = () => {
-    const name = prompt('Enter new collection name:');
+  const handleCreateCollection = async () => {
+    const name = await useUIStore.getState().requestPrompt({
+      title: 'New Collection',
+      placeholder: 'Enter collection name',
+      submitText: 'Create'
+    });
     if (name && name.trim()) {
       createCollection(name.trim());
     }
@@ -22,9 +26,13 @@ export const CollectionTree: React.FC = () => {
     toggleFolder(id);
   };
 
-  const handleAddFolder = (e: React.MouseEvent, collectionId: string) => {
+  const handleAddFolder = async (e: React.MouseEvent, collectionId: string) => {
     e.stopPropagation();
-    const name = prompt('Enter folder name:');
+    const name = await useUIStore.getState().requestPrompt({
+      title: 'New Folder',
+      placeholder: 'Enter folder name',
+      submitText: 'Create'
+    });
     if (name && name.trim()) {
       addFolder(collectionId, null, name.trim());
       if (!expandedFolders.has(collectionId)) toggleFolder(collectionId);
@@ -39,9 +47,13 @@ export const CollectionTree: React.FC = () => {
     setActiveMenuId(null);
   };
 
-  const handleRename = (e: React.MouseEvent, collection: Collection) => {
+  const handleRename = async (e: React.MouseEvent, collection: Collection) => {
     e.stopPropagation();
-    const newName = prompt('Enter new collection name:', collection.name);
+    const newName = await useUIStore.getState().requestPrompt({
+      title: 'Rename Collection',
+      defaultValue: collection.name,
+      submitText: 'Rename'
+    });
     if (newName && newName.trim()) {
       renameCollection(collection.id, newName.trim());
     }

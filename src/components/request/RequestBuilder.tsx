@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import type { RequestTab, HttpMethod } from '../../types/request';
+import { useRequestStore } from '../../stores/requestStore';
 import { MethodBadge } from '../shared/MethodBadge';
 import { parseCurlCommand } from '../../utils/curlParser';
 import './RequestBuilder.css';
@@ -130,6 +131,13 @@ export const RequestBuilder: React.FC<RequestBuilderProps> = ({ tab, onChange, o
           ) : (
             'Send'
           )}
+        </button>
+        <button
+          className="rb-save-btn"
+          onClick={() => useRequestStore.getState().saveActiveRequest()}
+          title="Save Request (Ctrl+S)"
+        >
+          Save
         </button>
       </div>
     </div>

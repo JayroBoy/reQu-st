@@ -52,13 +52,7 @@
   display: flex;
   flex: 1;
   overflow: hidden;
-  flex-direction: column; /* Stack vertically by default or maybe side-by-side */
-}
-
-@media (min-width: 900px) {
-  .app-shell-workspace {
-    flex-direction: row; /* Side-by-side on larger screens */
-  }
+  flex-direction: column;
 }
 
 .app-shell-request {
@@ -71,19 +65,8 @@
 .app-shell-resizer {
   background-color: var(--border-color);
   z-index: 1;
-}
-
-@media (min-width: 900px) {
-  .app-shell-resizer {
-    width: 2px;
-    cursor: col-resize;
-  }
-}
-@media (max-width: 899px) {
-  .app-shell-resizer {
-    height: 2px;
-    cursor: row-resize;
-  }
+  height: 2px;
+  cursor: row-resize;
 }
 
 .app-shell-response {

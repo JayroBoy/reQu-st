@@ -1,5 +1,7 @@
 import React, { useRef } from 'react';
 import type { RequestTab } from '../../types/request';
+import { useUIStore } from '../../stores/uiStore';
+import { useRequestStore } from '../../stores/requestStore';
 import { MethodBadge } from '../shared/MethodBadge';
 import './RequestTabs.css';
 
@@ -36,6 +38,18 @@ export const RequestTabs: React.FC<RequestTabsProps> = ({
     }
   };
 
+  const handleRename = async (e: React.MouseEvent, tab: RequestTab) => {
+    e.stopPropagation();
+    const newName = await useUIStore.getState().requestPrompt({
+      title: 'Rename Tab',
+      defaultValue: tab.name,
+      submitText: 'Rename'
+    });
+    if (newName && newName.trim()) {
+      useRequestStore.getState().updateTab(tab.id, { name: newName.trim() });
+    }
+  };
+
   return (
     <div className="request-tabs-bar">
       <div 
@@ -54,7 +68,12 @@ export const RequestTabs: React.FC<RequestTabsProps> = ({
               title={tab.url || tab.name}
             >
               <MethodBadge method={tab.method} className="tab-method-badge" />
-              <span className="tab-name">
+              <span 
+                className="tab-name" 
+                onDoubleClick={(e) => handleRename(e, tab)}
+                title="Double-click to rename"
+                style={{ cursor: 'text' }}
+              >
                 {tab.name}
               </span>
               {tab.isDirty && <span className="tab-dirty-dot">●</span>}
