@@ -15,7 +15,7 @@ pub const META_SENTINEL: &str = "__REQUAEST_META__";
 ///   5. Body flags
 ///   6. Follow-redirects / timeout
 ///   7. URL (always last)
-pub fn build_args(req: &CurlRequest) -> Vec<String> {
+pub fn build_args(req: &CurlRequest, headers_path: &str) -> Vec<String> {
     let mut args: Vec<String> = Vec::new();
 
     // ── 1. Silent + metadata write-out ───────────────────────────────────────
@@ -34,7 +34,7 @@ pub fn build_args(req: &CurlRequest) -> Vec<String> {
     // `-o -` writes the response body to stdout.
     // Combined they give us one continuous stream we can parse.
     args.push("-D".into());
-    args.push("-".into());
+    args.push(headers_path.into());
     args.push("-o".into());
     args.push("-".into());
 
@@ -126,23 +126,23 @@ mod tests {
 
     #[test]
     fn test_simple_get_has_silent_flag() {
-        let args = build_args(&base_get("https://example.com"));
+        let args = build_args(&base_get("https://example.com"), "headers.txt");
         assert!(args.contains(&"-s".to_string()));
     }
 
     #[test]
     fn test_simple_get_url_is_last() {
         let url = "https://example.com/api";
-        let args = build_args(&base_get(url));
+        let args = build_args(&base_get(url), "headers.txt");
         assert_eq!(args.last().unwrap(), url);
     }
 
     #[test]
     fn test_simple_get_has_header_dump_flags() {
-        let args = build_args(&base_get("https://example.com"));
-        // -D - must appear together
+        let args = build_args(&base_get("https://example.com"), "headers.txt");
+        // -D <file> must appear together
         let d_pos = args.iter().position(|a| a == "-D").unwrap();
-        assert_eq!(args[d_pos + 1], "-");
+        assert_eq!(args[d_pos + 1], "headers.txt");
         // -o - must appear together
         let o_pos = args.iter().position(|a| a == "-o").unwrap();
         assert_eq!(args[o_pos + 1], "-");
@@ -151,7 +151,7 @@ mod tests {
     #[test]
     fn test_follow_redirects_adds_l_flag() {
         let req = base_get("https://example.com");
-        let args = build_args(&req);
+        let args = build_args(&req, "headers.txt");
         assert!(args.contains(&"-L".to_string()));
     }
 
@@ -159,7 +159,7 @@ mod tests {
     fn test_no_follow_redirects_omits_l_flag() {
         let mut req = base_get("https://example.com");
         req.follow_redirects = false;
-        let args = build_args(&req);
+        let args = build_args(&req, "headers.txt");
         assert!(!args.contains(&"-L".to_string()));
     }
 
@@ -167,7 +167,7 @@ mod tests {
     fn test_timeout_ms_converted_to_seconds() {
         let mut req = base_get("https://example.com");
         req.timeout_ms = Some(5000);
-        let args = build_args(&req);
+        let args = build_args(&req, "headers.txt");
         let mt_pos = args.iter().position(|a| a == "--max-time").unwrap();
         assert_eq!(args[mt_pos + 1], "5.000");
     }
@@ -176,7 +176,7 @@ mod tests {
     fn test_custom_header_injected() {
         let mut req = base_get("https://example.com");
         req.headers = vec![["Authorization".into(), "Bearer tok".into()]];
-        let args = build_args(&req);
+        let args = build_args(&req, "headers.txt");
         assert!(args.contains(&"Authorization: Bearer tok".to_string()));
     }
 
@@ -193,7 +193,7 @@ mod tests {
             follow_redirects: false,
             timeout_ms: None,
         };
-        let args = build_args(&req);
+        let args = build_args(&req, "headers.txt");
         assert!(args.contains(&"Content-Type: application/json".to_string()));
         assert!(args.contains(&"--data-raw".to_string()));
         assert!(args.contains(&r#"{"a":1}"#.to_string()));
@@ -212,7 +212,7 @@ mod tests {
             follow_redirects: false,
             timeout_ms: None,
         };
-        let args = build_args(&req);
+        let args = build_args(&req, "headers.txt");
         // Only one Content-Type header — from the caller, not the body default
         let ct_count = args
             .iter()
@@ -237,7 +237,7 @@ mod tests {
             follow_redirects: false,
             timeout_ms: None,
         };
-        let args = build_args(&req);
+        let args = build_args(&req, "headers.txt");
         // Each field gets a -F flag
         let f_count = args.iter().filter(|a| a.as_str() == "-F").count();
         assert_eq!(f_count, 2);
@@ -258,7 +258,7 @@ mod tests {
             follow_redirects: false,
             timeout_ms: None,
         };
-        let args = build_args(&req);
+        let args = build_args(&req, "headers.txt");
         let count = args
             .iter()
             .filter(|a| a.as_str() == "--data-urlencode")
@@ -268,7 +268,7 @@ mod tests {
 
     #[test]
     fn test_write_out_contains_sentinel() {
-        let args = build_args(&base_get("https://example.com"));
+        let args = build_args(&base_get("https://example.com"), "headers.txt");
         let w_pos = args.iter().position(|a| a == "-w").unwrap();
         assert!(args[w_pos + 1].contains(META_SENTINEL));
     }

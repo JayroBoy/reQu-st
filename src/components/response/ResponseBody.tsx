@@ -46,7 +46,7 @@ export const ResponseBody: React.FC<ResponseBodyProps> = ({ response }) => {
 
     if (isJson) {
       try {
-        formattedBody = JSON.stringify(JSON.parse(response.body), null, 2);
+        formattedBody = JSON.stringify(JSON.parse(response.body), null, 4);
         extensions.push(json());
       } catch (e) {
         // Invalid JSON, fallback to raw text

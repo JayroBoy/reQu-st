@@ -8,7 +8,14 @@ use crate::models::curl_response::CurlResponse;
 /// Returns an error string if curl is not found or fails to run.
 #[tauri::command]
 pub async fn check_curl() -> Result<String, String> {
-    let output = tokio::process::Command::new("curl")
+    let mut cmd = tokio::process::Command::new("curl");
+    #[cfg(target_os = "windows")]
+    {
+        use std::os::windows::process::CommandExt;
+        cmd.creation_flags(0x08000000);
+    }
+
+    let output = cmd
         .arg("--version")
         .output()
         .await
@@ -35,9 +42,21 @@ pub async fn check_curl() -> Result<String, String> {
 ///   5. Return the structured response (or a descriptive error string)
 #[tauri::command]
 pub async fn execute_curl(request: CurlRequest) -> Result<CurlResponse, String> {
-    let args = curl_builder::build_args(&request);
+    use std::time::{SystemTime, UNIX_EPOCH};
+    let ts = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_micros();
+    let temp_file = std::env::temp_dir().join(format!("requaest_headers_{}.txt", ts));
+    let headers_path = temp_file.to_string_lossy().to_string();
 
-    let output = tokio::process::Command::new("curl")
+    let args = curl_builder::build_args(&request, &headers_path);
+
+    let mut cmd = tokio::process::Command::new("curl");
+    #[cfg(target_os = "windows")]
+    {
+        use std::os::windows::process::CommandExt;
+        cmd.creation_flags(0x08000000);
+    }
+
+    let output = cmd
         .args(&args)
         .output()
         .await
@@ -49,5 +68,8 @@ pub async fn execute_curl(request: CurlRequest) -> Result<CurlResponse, String> 
             )
         })?;
 
-    response_parser::parse(&output.stdout, &output.stderr)
+    let headers_bytes = std::fs::read(&temp_file).unwrap_or_default();
+    let _ = std::fs::remove_file(&temp_file);
+
+    response_parser::parse(&headers_bytes, &output.stdout, &output.stderr)
 }
